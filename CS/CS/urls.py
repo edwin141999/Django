@@ -18,6 +18,9 @@ from django.urls import path,re_path
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Mi proyecto en Swagger')
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,6 +41,9 @@ router.register(r'users', UserViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
+    #url(r'^', include(router.urls)),
     re_path(r'^api/v1/', include('Login.urls')),
+    re_path(r'^api/v1/',include('Profile.urls')),
+    url(r'^$',schema_view),
+    path(r'accounts/',include('rest_framework.urls'))
 ]
